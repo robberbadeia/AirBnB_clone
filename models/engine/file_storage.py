@@ -7,8 +7,9 @@ from models.base_model import BaseModel
 
 class FileStorage:
     """class implementation"""
-    __file_path = ""
+    __file_path = "file.json"
     __objects = {}
+    class_dic = {"BaseModel" : BaseModel}
 
     def all(self):
         """
@@ -32,8 +33,8 @@ class FileStorage:
         """
 
         json_objects = {}
-        for key in self.__objects:
-            json_objects[key] = self.__objects[key].todict()
+        for key, obj in self.__objects.items():
+            json_objects[key] = obj.to_dict()
         with open(self.__file_path, 'w') as file:
             json.dump(json_objects, file)
 
@@ -46,7 +47,8 @@ class FileStorage:
             with open(self.__file_path, 'r') as file:
                 d = json.load(file)
             for k, v in d.items():
-                obj = self.Base
+                obj = self.class_dic[v['__class__']](**v)
+                self.__objects[k] = obj
         except FileNotFoundError:
             pass
         pass
