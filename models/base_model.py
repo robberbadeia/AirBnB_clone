@@ -12,14 +12,24 @@ class BaseModel:
     Class that defines BaseModel logic.
     """
 
-    def __init__(self):
+    def __init__(self, *args, **kwargs):
         """
         Constructor for BaseModel class.
         """
 
-        self.id = str(uuid.uuid4())
-        self.created_at = datetime.now()
-        self.updated_at = datetime.now()
+        if kwargs:
+            for key, value in kwargs.items():
+                if key == "__class__":
+                    continue
+
+                if key in ["created_at", "updated_at"]:
+                    self.__setattr__(key, datetime.fromisoformat(value))
+                else:
+                    self.__setattr__(key, value)
+        else:
+            self.id = str(uuid.uuid4())
+            self.created_at = datetime.now()
+            self.updated_at = datetime.now()
 
     def __str__(self):
         """
@@ -43,7 +53,7 @@ class BaseModel:
         result = {"__class__": self.__class__.__name__}
 
         for key, value in self.__dict__.items():
-            if (key in ["created_at", "updated_at"]):
+            if key in ["created_at", "updated_at"]:
                 result[key] = value.isoformat("T")
             else:
                 result[key] = value
