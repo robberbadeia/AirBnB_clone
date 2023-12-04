@@ -44,7 +44,7 @@ class BaseModel:
 
         for key, value in self.__dict__.items():
             if (key in ["created_at", "updated_at"]):
-                result[key] = value.isoformat()
+                result[key] = value.isoformat("T")
             else:
                 result[key] = value
 
