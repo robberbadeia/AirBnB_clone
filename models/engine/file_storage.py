@@ -1,30 +1,34 @@
 #!/usr/bin/python3
 """
-Module that serializes instances to a JSON file and deserializes JSON file to instances.
+Module that defines FileStorage class.
 """
 import json
 from models.base_model import BaseModel
 
+
 class FileStorage:
-    """class implementation"""
+    """
+    Class that FileStorage logic.
+    """
+
     __file_path = "file.json"
     __objects = {}
-    class_dic = {"BaseModel" : BaseModel}
+    class_dic = {"BaseModel": BaseModel}
 
     def all(self):
         """
         Method that returns the dictionary __objects.
         """
 
-        return (self.__objects)
-    
+        return self.__objects
+
     def new(self, obj):
         """
         Method that sets in __objects the obj with key <obj class name>.id.
         """
 
         if obj:
-            key = "{}.{}".format(obj.__class__.__name__, obj.id)
+            key = f"{obj.__class__.__name__}.{obj.id}"
             self.__objects[key] = obj
 
     def save(self):
@@ -33,9 +37,11 @@ class FileStorage:
         """
 
         json_objects = {}
+
         for key, obj in self.__objects.items():
             json_objects[key] = obj.to_dict()
-        with open(self.__file_path, 'w') as file:
+
+        with open(self.__file_path, "w") as file:
             json.dump(json_objects, file)
 
     def reload(self):
@@ -44,11 +50,11 @@ class FileStorage:
         """
 
         try:
-            with open(self.__file_path, 'r') as file:
+            with open(self.__file_path, "r") as file:
                 d = json.load(file)
+
             for k, v in d.items():
-                obj = self.class_dic[v['__class__']](**v)
+                obj = self.class_dic[v["__class__"]](**v)
                 self.__objects[k] = obj
         except FileNotFoundError:
             pass
-        pass
