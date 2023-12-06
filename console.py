@@ -4,7 +4,7 @@ Module that defines HBNBCommand class.
 """
 
 import cmd
-import sys
+import models
 from models.base_model import BaseModel
 
 
@@ -13,29 +13,24 @@ class HBNBCommand(cmd.Cmd):
     Class that defines HBNBCommand logic.
     """
 
-    class_dic = {"BaseModel": BaseModel}
-
-    def __init__(self):
-        """
-        Constructor for HBNBCommand class.
-        """
-
-        cmd.Cmd.__init__(self)
-        self.prompt = "(hbnb) "
+    prompt = "(hbnb) "
+    __classes = {
+        "BaseModel": BaseModel
+    }
 
     def do_EOF(self, line):
         """
         Method that handles EOF command.
         """
 
-        sys.exit()
+        return True
 
     def do_quit(self, line):
         """
         Method that handles quit command.
         """
 
-        sys.exit()
+        return True
 
     def emptyline(self):
         """
@@ -43,22 +38,83 @@ class HBNBCommand(cmd.Cmd):
         """
 
     def do_create(self, line):
-        """Creates a new instance of BaseModel"""
+        """
+        Method that handles create command.
+        """
 
-        args_lst = line.split()
+        args = line.split()
 
-        if len(args_lst) == 0:
+        if not args:
             print("** class name missing **")
-            return False
-
-        if args_lst[0] not in self.class_dic:
+        elif args[0] not in HBNBCommand.__classes:
             print("** class doesn't exist **")
-            return False
+        else:
+            instance = HBNBCommand.__classes[args[0]]()
+            instance.save()
+            print(instance.id)
 
-        instance = eval(line)()
-        instance.save()
-        print(instance.id)
-        return True
+    def do_show(self, line):
+        """
+        Method that handles show command.
+        """
+
+        args = line.split()
+
+        if not args:
+            print("** class name missing **")
+        elif args[0] not in HBNBCommand.__classes:
+            print("** class doesn't exist **")
+        elif len(args) < 2:
+            print("** instance id missing **")
+        else:
+            for key, obj in models.storage.all().items():
+                if f"{args[0]}.{args[1]}" == key:
+                    print(obj)
+                    break
+            else:
+                print("** no instance found **")
+
+    def do_destroy(self, line):
+        """
+        Method that handles destroy command.
+        """
+
+        args = line.split()
+
+        if not args:
+            print("** class name missing **")
+        elif args[0] not in HBNBCommand.__classes:
+            print("** class doesn't exist **")
+        elif len(args) < 2:
+            print("** instance id missing **")
+        else:
+            objects = models.storage.all()
+
+            for key in objects.keys():
+                if f"{args[0]}.{args[1]}" == key:
+                    del objects[key]
+                    models.storage.save()
+                    break
+            else:
+                print("** no instance found **")
+
+    def do_all(self, line):
+        """
+        Method that handles all command.
+        """
+
+        args = line.split()
+
+        if not args:
+            print([str(obj) for key, obj in models.storage.all().items()])
+        else:
+            objects = []
+
+            for key, obj in models.storage.all().items():
+                if key.split(".")[0] == args[0]:
+                    objects.append(str(obj))
+
+            print(objects)
 
 
 if __name__ == '__main__':
