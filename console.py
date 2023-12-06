@@ -1,50 +1,65 @@
 #!/usr/bin/python3
 """
-contains the entry point of the command interpreter
+Module that defines HBNBCommand class.
 """
 
 import cmd
+import sys
 from models.base_model import BaseModel
 
-class HBNBCommand(cmd.Cmd):
-    """Class Implementation"""
 
-    class_dic = {"BaseModel" : BaseModel}
+class HBNBCommand(cmd.Cmd):
+    """
+    Class that defines HBNBCommand logic.
+    """
+
+    class_dic = {"BaseModel": BaseModel}
 
     def __init__(self):
-        """Initiation Function"""
+        """
+        Constructor for HBNBCommand class.
+        """
 
         cmd.Cmd.__init__(self)
-        self.prompt = "({}) ".format(str("hbnb"))
+        self.prompt = "(hbnb) "
 
     def do_EOF(self, line):
-        """EOF command to exit the program"""
+        """
+        Method that handles EOF command.
+        """
 
-        exit()
+        sys.exit()
 
     def do_quit(self, line):
-        """Quit command to exit the program"""
+        """
+        Method that handles quit command.
+        """
 
-        exit()
+        sys.exit()
 
     def emptyline(self):
-        pass
-
+        """
+        Method that handles empty line + ENTER combination.
+        """
 
     def do_create(self, line):
         """Creates a new instance of BaseModel"""
 
         args_lst = line.split()
+
         if len(args_lst) == 0:
-            print ("** class name missing **")
+            print("** class name missing **")
             return False
-        elif args_lst[0] not in self.class_dic:
-            print ("** class doesn't exist **")
+
+        if args_lst[0] not in self.class_dic:
+            print("** class doesn't exist **")
             return False
-        else:
-            instance = eval(line)()
-            instance.save()
-            print(instance.id)
+
+        instance = eval(line)()
+        instance.save()
+        print(instance.id)
+        return True
+
 
 if __name__ == '__main__':
     HBNBCommand().cmdloop()
