@@ -14,7 +14,9 @@ class FileStorage:
 
     __file_path = "file.json"
     __objects = {}
-    class_dic = {"BaseModel": BaseModel}
+    __classes = {
+        "BaseModel": BaseModel
+    }
 
     def all(self):
         """
@@ -55,7 +57,7 @@ class FileStorage:
                 d = json.load(file)
 
             for k, v in d.items():
-                obj = self.class_dic[v["__class__"]](**v)
+                obj = FileStorage.__classes[v["__class__"]](**v)
                 self.__objects[k] = obj
         except FileNotFoundError:
             pass
