@@ -5,7 +5,6 @@ Module that defines HBNBCommand class.
 
 import cmd
 import models
-from models.base_model import BaseModel
 
 
 class HBNBCommand(cmd.Cmd):
@@ -14,9 +13,6 @@ class HBNBCommand(cmd.Cmd):
     """
 
     prompt = "(hbnb) "
-    __classes = {
-        "BaseModel": BaseModel
-    }
 
     def do_EOF(self, line):
         """
@@ -46,10 +42,10 @@ class HBNBCommand(cmd.Cmd):
 
         if not args:
             print("** class name missing **")
-        elif args[0] not in HBNBCommand.__classes:
+        elif args[0] not in models.storage.classes():
             print("** class doesn't exist **")
         else:
-            instance = HBNBCommand.__classes[args[0]]()
+            instance = models.storage.classes()[args[0]]()
             instance.save()
             print(instance.id)
 
@@ -62,7 +58,7 @@ class HBNBCommand(cmd.Cmd):
 
         if not args:
             print("** class name missing **")
-        elif args[0] not in HBNBCommand.__classes:
+        elif args[0] not in models.storage.classes():
             print("** class doesn't exist **")
         elif len(args) < 2:
             print("** instance id missing **")
@@ -83,14 +79,14 @@ class HBNBCommand(cmd.Cmd):
 
         if not args:
             print("** class name missing **")
-        elif args[0] not in HBNBCommand.__classes:
+        elif args[0] not in models.storage.classes():
             print("** class doesn't exist **")
         elif len(args) < 2:
             print("** instance id missing **")
         else:
             objects = models.storage.all()
 
-            for key in objects.keys():
+            for key in objects:
                 if f"{args[0]}.{args[1]}" == key:
                     del objects[key]
                     models.storage.save()
@@ -108,13 +104,39 @@ class HBNBCommand(cmd.Cmd):
         if not args:
             print([str(obj) for key, obj in models.storage.all().items()])
         else:
-            objects = []
+            print([str(obj) for key, obj in models.storage.all().items()
+                  if key.split(".")[0] == args[0]])
 
-            for key, obj in models.storage.all().items():
-                if key.split(".")[0] == args[0]:
-                    objects.append(str(obj))
+    def do_update(self, line):
+        """
+        Method that handles update command.
+        """
 
-            print(objects)
+        args = line.split()
+
+        if not args:
+            print("** class name missing **")
+        elif args[0] not in models.storage.classes():
+            print("** class doesn't exist **")
+        elif len(args) < 2:
+            print("** instance id missing **")
+        elif f"{args[0]}.{args[1]}" not in models.storage.all():
+            print("** no instance found **")
+        elif len(args) < 3:
+            print("** attribute name missing **")
+        elif len(args) < 4:
+            print("** value missing **")
+        else:
+            try:
+                obj = models.storage.all()[f"{args[0]}.{args[1]}"]
+                if isinstance(getattr(obj, args[2]), int):
+                    setattr(obj, args[2], int(args[3]))
+                else:
+                    setattr(obj, args[2], float(args[3]))
+            except ValueError:
+                setattr(obj, args[2], args[3])
+            finally:
+                obj.save()
 
 
 if __name__ == '__main__':

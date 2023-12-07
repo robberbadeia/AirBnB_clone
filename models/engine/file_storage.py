@@ -23,7 +23,7 @@ class FileStorage:
         Method that returns the dictionary __objects.
         """
 
-        return self.__objects
+        return FileStorage.__objects
 
     def new(self, obj):
         """
@@ -32,7 +32,7 @@ class FileStorage:
 
         if obj:
             key = f"{obj.__class__.__name__}.{obj.id}"
-            self.__objects[key] = obj
+            FileStorage.__objects[key] = obj
 
     def save(self):
         """
@@ -41,10 +41,10 @@ class FileStorage:
 
         json_objects = {}
 
-        for key, obj in self.__objects.items():
+        for key, obj in FileStorage.__objects.items():
             json_objects[key] = obj.to_dict()
 
-        with open(self.__file_path, "w") as file:
+        with open(FileStorage.__file_path, "w") as file:
             json.dump(json_objects, file)
 
     def reload(self):
@@ -53,11 +53,18 @@ class FileStorage:
         """
 
         try:
-            with open(self.__file_path, "r") as file:
+            with open(FileStorage.__file_path, "r") as file:
                 d = json.load(file)
 
             for k, v in d.items():
                 obj = FileStorage.__classes[v["__class__"]](**v)
-                self.__objects[k] = obj
+                FileStorage.__objects[k] = obj
         except FileNotFoundError:
             pass
+
+    def classes(self):
+        """
+        Method that returns the classes dictionary.
+        """
+
+        return FileStorage.__classes
