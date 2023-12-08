@@ -17,8 +17,6 @@ class test_User(test_basemodel):
         self.name = "User"
         self.value = User
 
-    
-
     def test_first_name(self):
         """Test first name"""
 
