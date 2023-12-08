@@ -23,7 +23,7 @@ class test_basemodel(unittest.TestCase):
         """Method to test class type"""
 
         inst = self.value()
-        self.assertEqual(type(inst), BaseModel)
+        self.assertEqual(type(inst), self.value)
 
     def test_id(self):
         """Method to test id attribute type"""
