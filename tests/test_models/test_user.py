@@ -1,42 +1,44 @@
 #!/usr/bin/python3
 """
-Module used to define test cases for user class.
+Module that defines unit tests for User class.
 """
 
 from models.user import User
-from tests.test_models.test_basemodel import test_basemodel
+from tests.test_models.test_base_model import TestBaseModel
 
 
-class test_User(test_basemodel):
-    """class Implementation"""
+class TestUser(TestBaseModel):
+    """
+    Class that defines unit tests for User class.
+    """
 
-    def __init__(self, *args, **kwargs):
-        """__init__ Method"""
-
-        super().__init__(*args, **kwargs)
-        self.name = "User"
-        self.value = User
+    __class = User
+    __class_name = "User"
 
     def test_first_name(self):
-        """Test first name"""
+        """
+        Method that tests first_name attribute.
+        """
 
-        obj = self.value()
-        self.assertEqual(type(obj.first_name), str)
+        self.assertEqual(type(self.__class().first_name), str)
 
     def test_last_name(self):
-        """Test last name"""
+        """
+        Method that tests last_name attribute.
+        """
 
-        obj = self.value()
-        self.assertEqual(type(obj.last_name), str)
+        self.assertEqual(type(self.__class().last_name), str)
 
     def test_email(self):
-        """Test email"""
+        """
+        Method that tests email attribute.
+        """
 
-        obj = self.value()
-        self.assertEqual(type(obj.email), str)
+        self.assertEqual(type(self.__class().email), str)
 
     def test_password(self):
-        """Test password"""
+        """
+        Method that tests password attribute.
+        """
 
-        obj = self.value()
-        self.assertEqual(type(obj.password), str)
+        self.assertEqual(type(self.__class().password), str)

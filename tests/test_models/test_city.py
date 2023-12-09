@@ -1,30 +1,30 @@
 #!/usr/bin/python3
 """
-Module used to define test cases for city class.
+Module that defines unit tests for City class.
 """
 
 from models.city import City
-from tests.test_models.test_basemodel import test_basemodel
+from tests.test_models.test_base_model import TestBaseModel
 
 
-class test_City(test_basemodel):
-    """class Implementation"""
+class TestCity(TestBaseModel):
+    """
+    Class that defines unit tests for City class.
+    """
 
-    def __init__(self, *args, **kwargs):
-        """__init__ Method"""
-
-        super().__init__(*args, **kwargs)
-        self.name = "City"
-        self.value = City
+    __class = City
+    __class_name = "City"
 
     def test_name(self):
-        """Test name"""
+        """
+        Method that tests name attribute.
+        """
 
-        obj = self.value()
-        self.assertEqual(type(obj.name), str)
+        self.assertEqual(type(self.__class().name), str)
 
     def test_state_id(self):
-        """Test state_id"""
+        """
+        Method that tests state_id attribute.
+        """
 
-        obj = self.value()
-        self.assertEqual(type(obj.state_id), str)
+        self.assertEqual(type(self.__class().state_id), str)

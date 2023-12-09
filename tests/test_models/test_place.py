@@ -1,84 +1,93 @@
 #!/usr/bin/python3
 """
-Module used to define test cases for place class.
+Module that defines unit tests for Place class.
 """
 
 from models.place import Place
-from tests.test_models.test_basemodel import test_basemodel
+from tests.test_models.test_base_model import TestBaseModel
 
 
-class test_Place(test_basemodel):
-    """class Implementation"""
+class TestPlace(TestBaseModel):
+    """
+    Class that defines unit tests for Place class.
+    """
 
-    def __init__(self, *args, **kwargs):
-        """__init__ Method"""
-
-        super().__init__(*args, **kwargs)
-        self.name = "Place"
-        self.value = Place
+    __class = Place
+    __class_name = "Place"
 
     def test_city_id(self):
-        """Test city_id"""
+        """
+        Method that tests city_id attribute.
+        """
 
-        obj = self.value()
-        self.assertEqual(type(obj.city_id), str)
+        self.assertEqual(type(self.__class().city_id), str)
 
     def test_user_id(self):
-        """Test user_id"""
+        """
+        Method that tests user_id attribute.
+        """
 
-        obj = self.value()
-        self.assertEqual(type(obj.user_id), str)
+        self.assertEqual(type(self.__class().user_id), str)
 
     def test_name(self):
-        """Test name"""
+        """
+        Method that tests name attribute.
+        """
 
-        obj = self.value()
-        self.assertEqual(type(obj.name), str)
+        self.assertEqual(type(self.__class().name), str)
 
     def test_description(self):
-        """Test description"""
+        """
+        Method that tests description attribute.
+        """
 
-        obj = self.value()
-        self.assertEqual(type(obj.description), str)
+        self.assertEqual(type(self.__class().description), str)
 
     def test_number_rooms(self):
-        """Test number_rooms"""
+        """
+        Method that tests number_rooms attribute.
+        """
 
-        obj = self.value()
-        self.assertEqual(type(obj.number_rooms), int)
+        self.assertEqual(type(self.__class().number_rooms), int)
 
     def test_number_bathrooms(self):
-        """Test number_bathrooms"""
+        """
+        Method that tests number_bathrooms attribute.
+        """
 
-        obj = self.value()
-        self.assertEqual(type(obj.number_bathrooms), int)
+        self.assertEqual(type(self.__class().number_bathrooms), int)
 
     def test_max_guest(self):
-        """Test max_guest"""
+        """
+        Method that tests max_guest attribute.
+        """
 
-        obj = self.value()
-        self.assertEqual(type(obj.max_guest), int)
+        self.assertEqual(type(self.__class().max_guest), int)
 
     def test_price_by_night(self):
-        """Test price_by_night"""
+        """
+        Method that tests price_by_night attribute.
+        """
 
-        obj = self.value()
-        self.assertEqual(type(obj.price_by_night), int)
+        self.assertEqual(type(self.__class().price_by_night), int)
 
     def test_latitude(self):
-        """Test latitude"""
+        """
+        Method that tests latitude attribute.
+        """
 
-        obj = self.value()
-        self.assertEqual(type(obj.latitude), float)
+        self.assertEqual(type(self.__class().latitude), float)
 
     def test_longitude(self):
-        """Test longitude"""
+        """
+        Method that tests longitude attribute.
+        """
 
-        obj = self.value()
-        self.assertEqual(type(obj.longitude), float)
+        self.assertEqual(type(self.__class().longitude), float)
 
     def test_amenity_ids(self):
-        """Test amenity_ids"""
+        """
+        Method that tests amenity_ids attribute.
+        """
 
-        obj = self.value()
-        self.assertEqual(type(obj.amenity_ids), list)
+        self.assertEqual(type(self.__class().amenity_ids), list)

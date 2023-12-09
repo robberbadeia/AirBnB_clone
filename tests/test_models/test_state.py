@@ -1,24 +1,23 @@
 #!/usr/bin/python3
 """
-Module used to define test cases for state class.
+Module that defines unit tests for State class.
 """
 
 from models.state import State
-from tests.test_models.test_basemodel import test_basemodel
+from tests.test_models.test_base_model import TestBaseModel
 
 
-class test_User(test_basemodel):
-    """class Implementation"""
+class TestState(TestBaseModel):
+    """
+    Class that defines unit tests for State class.
+    """
 
-    def __init__(self, *args, **kwargs):
-        """__init__ Method"""
-
-        super().__init__(*args, **kwargs)
-        self.name = "State"
-        self.value = State
+    __class = State
+    __class_name = "State"
 
     def test_name(self):
-        """Test name"""
+        """
+        Method that tests updated_at attribute.
+        """
 
-        obj = self.value()
-        self.assertEqual(type(obj.name), str)
+        self.assertEqual(type(self.__class().name), str)

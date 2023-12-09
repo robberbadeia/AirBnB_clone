@@ -1,36 +1,37 @@
 #!/usr/bin/python3
 """
-Module used to define test cases for review class.
+Module that defines unit tests for Review class.
 """
 
 from models.review import Review
-from tests.test_models.test_basemodel import test_basemodel
+from tests.test_models.test_base_model import TestBaseModel
 
 
-class test_Review(test_basemodel):
-    """class Implementation"""
+class TestReview(TestBaseModel):
+    """
+    Class that defines unit tests for Review class.
+    """
 
-    def __init__(self, *args, **kwargs):
-        """__init__ Method"""
-
-        super().__init__(*args, **kwargs)
-        self.name = "Review"
-        self.value = Review
+    __class = Review
+    __class_name = "Review"
 
     def test_place_id(self):
-        """Test place_id"""
+        """
+        Method that tests place_id attribute.
+        """
 
-        obj = self.value()
-        self.assertEqual(type(obj.place_id), str)
+        self.assertEqual(type(self.__class().place_id), str)
 
     def test_user_id(self):
-        """Test user_id"""
+        """
+        Method that tests user_id attribute.
+        """
 
-        obj = self.value()
-        self.assertEqual(type(obj.user_id), str)
+        self.assertEqual(type(self.__class().user_id), str)
 
     def test_text(self):
-        """Test text"""
+        """
+        Method that tests text attribute.
+        """
 
-        obj = self.value()
-        self.assertEqual(type(obj.text), str)
+        self.assertEqual(type(self.__class().text), str)
