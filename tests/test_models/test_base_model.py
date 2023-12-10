@@ -81,3 +81,7 @@ class TestBaseModel(unittest.TestCase):
         """
 
         self.assertEqual(type(self.__class().to_dict()), dict)
+
+
+if __name__ == "__main__":
+    unittest.main()

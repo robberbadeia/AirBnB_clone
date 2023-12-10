@@ -50,3 +50,7 @@ class TestFileStorage(unittest.TestCase):
         storage.new(city)
         key = city.__class__.__name__ + "." + str(city.id)
         self.assertIsNotNone(storage.all()[key])
+
+
+if __name__ == "__main__":
+    unittest.main()

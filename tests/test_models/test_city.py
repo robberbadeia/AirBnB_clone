@@ -3,6 +3,7 @@
 Module that defines unit tests for City class.
 """
 
+import unittest
 from models.city import City
 from tests.test_models.test_base_model import TestBaseModel
 
@@ -28,3 +29,7 @@ class TestCity(TestBaseModel):
         """
 
         self.assertEqual(type(self.__class().state_id), str)
+
+
+if __name__ == "__main__":
+    unittest.main()

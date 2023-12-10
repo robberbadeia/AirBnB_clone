@@ -3,6 +3,7 @@
 Module that defines unit tests for Review class.
 """
 
+import unittest
 from models.review import Review
 from tests.test_models.test_base_model import TestBaseModel
 
@@ -35,3 +36,7 @@ class TestReview(TestBaseModel):
         """
 
         self.assertEqual(type(self.__class().text), str)
+
+
+if __name__ == "__main__":
+    unittest.main()

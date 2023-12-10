@@ -3,6 +3,7 @@
 Module that defines unit tests for Place class.
 """
 
+import unittest
 from models.place import Place
 from tests.test_models.test_base_model import TestBaseModel
 
@@ -91,3 +92,7 @@ class TestPlace(TestBaseModel):
         """
 
         self.assertEqual(type(self.__class().amenity_ids), list)
+
+
+if __name__ == "__main__":
+    unittest.main()
