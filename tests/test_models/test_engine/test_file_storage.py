@@ -6,6 +6,7 @@ Module to test FileStorage class
 import unittest
 import os
 from models.engine.file_storage import FileStorage
+from models.city import City
 
 
 class TestStorage(unittest.TestCase):
@@ -32,9 +33,21 @@ class TestStorage(unittest.TestCase):
             pass
 
     def test_all(self):
-        """Method that tests all method"""
+        """Method that tests FileStorage all method"""
 
         instance = self.__class()
         inst_dict = instance.all()
         self.assertIsNotNone(inst_dict)
         self.assertEqual(type(inst_dict), dict)
+
+    def test_new(self):
+        """Method that tests FileStorage new method"""
+
+        instance = self.__class()
+        city = City()
+        city.name = "Cairo"
+        city.id = 777
+        instance.new(city)
+        inst_dict = instance.all()
+        key = city.__class__.__name__ + "." + str(city.id)
+        self.assertIsNotNone(inst_dict[key])
