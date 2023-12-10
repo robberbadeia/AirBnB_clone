@@ -4,6 +4,7 @@ Module that defines HBNBCommand class.
 """
 
 import cmd
+import shlex
 import models
 
 
@@ -38,23 +39,23 @@ class HBNBCommand(cmd.Cmd):
         Method that handles create command.
         """
 
-        args = line.split()
+        args = shlex.split(line)
 
         if not args:
             print("** class name missing **")
         elif args[0] not in models.storage.classes():
             print("** class doesn't exist **")
         else:
-            instance = models.storage.classes()[args[0]]()
-            instance.save()
-            print(instance.id)
+            obj = models.storage.classes()[args[0]]()
+            obj.save()
+            print(obj.id)
 
     def do_show(self, line):
         """
         Method that handles show command.
         """
 
-        args = line.split()
+        args = shlex.split(line)
 
         if not args:
             print("** class name missing **")
@@ -75,7 +76,7 @@ class HBNBCommand(cmd.Cmd):
         Method that handles destroy command.
         """
 
-        args = line.split()
+        args = shlex.split(line)
 
         if not args:
             print("** class name missing **")
@@ -99,10 +100,12 @@ class HBNBCommand(cmd.Cmd):
         Method that handles all command.
         """
 
-        args = line.split()
+        args = shlex.split(line)
 
         if not args:
             print([str(obj) for key, obj in models.storage.all().items()])
+        elif args[0] not in models.storage.classes():
+            print("** class doesn't exist **")
         else:
             print([str(obj) for key, obj in models.storage.all().items()
                   if key.split(".")[0] == args[0]])
@@ -112,7 +115,7 @@ class HBNBCommand(cmd.Cmd):
         Method that handles update command.
         """
 
-        args = line.split()
+        args = shlex.split(line)
 
         if not args:
             print("** class name missing **")
@@ -133,7 +136,7 @@ class HBNBCommand(cmd.Cmd):
                     setattr(obj, args[2], int(args[3]))
                 else:
                     setattr(obj, args[2], float(args[3]))
-            except ValueError:
+            except (ValueError, AttributeError):
                 setattr(obj, args[2], args[3])
             finally:
                 obj.save()
