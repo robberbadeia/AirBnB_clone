@@ -1,17 +1,17 @@
 #!/usr/bin/python3
 """
-Module to test FileStorage class
+Module that defines unit tests for FileStorage class.
 """
 
-import unittest
 import os
+import unittest
 from models.engine.file_storage import FileStorage
 from models.city import City
 
 
-class TestStorage(unittest.TestCase):
+class TestFileStorage(unittest.TestCase):
     """
-    Class that defines unit tests for File_storage class.
+    Class that defines unit tests for FileStorage class.
     """
 
     __class = FileStorage
@@ -33,21 +33,20 @@ class TestStorage(unittest.TestCase):
             pass
 
     def test_all(self):
-        """Method that tests FileStorage all method"""
+        """
+        Method that tests all method.
+        """
 
-        instance = self.__class()
-        inst_dict = instance.all()
-        self.assertIsNotNone(inst_dict)
-        self.assertEqual(type(inst_dict), dict)
+        self.assertEqual(type(self.__class().all()), dict)
 
     def test_new(self):
-        """Method that tests FileStorage new method"""
+        """
+        Method that tests new method.
+        """
 
-        instance = self.__class()
+        storage = self.__class()
         city = City()
-        city.name = "Cairo"
-        city.id = 777
-        instance.new(city)
-        inst_dict = instance.all()
+        city.id = 1488
+        storage.new(city)
         key = city.__class__.__name__ + "." + str(city.id)
-        self.assertIsNotNone(inst_dict[key])
+        self.assertIsNotNone(storage.all()[key])
