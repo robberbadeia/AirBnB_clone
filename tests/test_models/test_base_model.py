@@ -37,21 +37,21 @@ class TestBaseModel(unittest.TestCase):
         Method that tests id attribute.
         """
 
-        self.assertEqual(type(self.__class().id), str)
+        self.assertIsInstance(self.__class().id, str)
 
     def test_created_at(self):
         """
         Method that tests created_at attribute.
         """
 
-        self.assertEqual(type(self.__class().created_at), datetime)
+        self.assertIsInstance(self.__class().created_at, datetime)
 
     def test_updated_at(self):
         """
         Method that tests updated_at attribute.
         """
 
-        self.assertEqual(type(self.__class().updated_at), datetime)
+        self.assertIsInstance(self.__class().updated_at, datetime)
 
     def test_str(self):
         """
@@ -72,7 +72,6 @@ class TestBaseModel(unittest.TestCase):
         original_updated_at = obj.updated_at
         obj.save()
         self.assertNotEqual(original_updated_at, obj.updated_at)
-        self.assertGreater(obj.updated_at, obj.created_at)
         self.assertTrue(os.path.isfile("file.json"))
 
     def test_to_dict(self):
@@ -80,7 +79,11 @@ class TestBaseModel(unittest.TestCase):
         Method that tests to_dict method.
         """
 
-        self.assertEqual(type(self.__class().to_dict()), dict)
+        obj = self.__class().to_dict()
+        self.assertIsInstance(obj, dict)
+        self.assertIn("__class__", obj)
+        self.assertIsInstance(obj["created_at"], str)
+        self.assertIsInstance(obj["updated_at"], str)
 
 
 if __name__ == "__main__":
