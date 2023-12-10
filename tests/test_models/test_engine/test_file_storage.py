@@ -4,9 +4,10 @@ Module that defines unit tests for FileStorage class.
 """
 
 import os
+import json
 import unittest
 from models.engine.file_storage import FileStorage
-from models.city import City
+from models.base_model import BaseModel
 
 
 class TestFileStorage(unittest.TestCase):
@@ -37,7 +38,7 @@ class TestFileStorage(unittest.TestCase):
         Method that tests all method.
         """
 
-        self.assertEqual(type(self.__class().all()), dict)
+        self.assertIsInstance(self.__class().all(), dict)
 
     def test_new(self):
         """
@@ -45,11 +46,41 @@ class TestFileStorage(unittest.TestCase):
         """
 
         storage = self.__class()
-        city = City()
-        city.id = 1488
-        storage.new(city)
-        key = city.__class__.__name__ + "." + str(city.id)
-        self.assertIsNotNone(storage.all()[key])
+        base_model = BaseModel()
+        base_model.id = 1488
+        storage.new(base_model)
+        key = base_model.__class__.__name__ + "." + str(base_model.id)
+        self.assertIn(key, storage.all())
+
+    def test_save(self):
+        """
+        Method that tests save method.
+        """
+
+        storage = self.__class()
+        obj = BaseModel()
+        storage.new(obj)
+        storage.save()
+        self.assertTrue(os.path.exists("file.json"))
+        with open("file.json", "r") as f:
+            self.assertEqual(json.load(f),
+                             {k: v.to_dict() for k, v in storage.all().items()}
+                             )
+
+    def test_reload(self):
+        """
+        Method that tests reload method.
+        """
+
+        obj = BaseModel()
+        with open("file.json", "w") as f:
+            f.write("{ " + f'"BaseModel.{obj.id}": ' +
+                    json.dumps(obj.to_dict()) + " }")
+
+        storage = self.__class()
+        storage.reload()
+
+        self.assertIn(f"BaseModel.{obj.id}", storage.all())
 
 
 if __name__ == "__main__":
