@@ -1,19 +1,19 @@
 #!/usr/bin/python3
 """
-Module that defines unit tests for State class.
+Module that defines unit tests for Amenity class.
 """
 
-from models.state import State
+from models.amenity import Amenity
 from tests.test_models.test_base_model import TestBaseModel
 
 
-class TestState(TestBaseModel):
+class TestAmenity(TestBaseModel):
     """
-    Class that defines unit tests for State class.
+    Class that defines unit tests for Amenity class.
     """
 
-    __class = State
-    __class_name = "State"
+    __class = Amenity
+    __class_name = "Amenity"
 
     def test_name(self):
         """

@@ -40,12 +40,6 @@ class BaseModel:
 
         return f"[{self.__class__.__name__}] ({self.id}) {self.__dict__}"
 
-    def __repr__(self):
-        """Return Setring implementation
-        """
-
-        return self.__str__()
-
     def save(self):
         """
         Method that updates the updated_at attribute of an instance.
