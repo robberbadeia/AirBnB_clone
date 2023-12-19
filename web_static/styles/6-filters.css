@@ -29,8 +29,6 @@ button:hover {
     border-right: 1px solid #DDDDDD;
     margin-top: 0px;
     float: left;
-
-
 }
 
 .amenities {
@@ -70,6 +68,7 @@ h4 {
 
 .locations:hover .popover,
 .amenities:hover .popover {
+    position: relative;
     display: block;
 }
 
